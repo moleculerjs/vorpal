@@ -48,7 +48,7 @@
     "request": "^2.58.0",
     "should": "^6.0.3",
     "vorpal-less": "0.0.4",
-    "vorpal-repl": "^1.1.8",
+    "vorpal-repl": "github:joshmanders/vorpal-repl#fix-vulnerabilities",
     "xo": "^0.24.0"
   },
   "dependencies": {
