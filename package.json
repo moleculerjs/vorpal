@@ -4,7 +4,7 @@
   "description": "Node's first framework for building immersive CLI apps.",
   "main": "./dist/vorpal.js",
   "scripts": {
-    "test": "gulp build && mocha",
+    "test": "gulp build && mocha --exit",
     "prepublish": "in-publish && gulp build || not-in-publish"
   },
   "repository": {
@@ -45,12 +45,12 @@
     "gulp-eslint": "6.0.0",
     "gulp-xo": "0.22.0",
     "load-plugins": "^2.1.2",
-    "mocha": "^2.2.5",
+    "mocha": "^6.2.0",
     "moment": "^2.10.3",
     "request": "^2.58.0",
     "should": "^6.0.3",
     "vorpal-less": "0.0.13",
-    "vorpal-repl": "^1.1.8",
+    "vorpal-repl": "git+https://github.com/AndreMaz/vorpal-repl.git",
     "xo": "0.24.0"
   },
   "dependencies": {
