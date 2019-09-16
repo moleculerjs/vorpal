@@ -1,16 +1,19 @@
 'use strict';
 
 var LocalStorageO = require('node-localstorage').LocalStorage;
+
 var path = require('path');
+
 var os = require('os');
+
 var temp = path.normalize(path.join(os.tmpdir(), '/.local_storage_'));
 var DEFAULT_STORAGE_PATH = temp;
-
 var LocalStorage = {
   setId: function setId(id) {
     if (id === undefined) {
       throw new Error('vorpal.localStorage() requires a unique key to be passed in.');
     }
+
     if (!this._localStorage) {
       this._localStorage = new LocalStorageO(DEFAULT_STORAGE_PATH + id);
     }
@@ -33,5 +36,4 @@ var LocalStorage = {
     return this._localStorage.removeItem(key);
   }
 };
-
 module.exports = LocalStorage;

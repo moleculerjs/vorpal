@@ -1,26 +1,26 @@
 'use strict';
-
 /**
  * Module dependencies.
  */
 
 var EventEmitter = require('events').EventEmitter;
-var Option = require('./option');
-var VorpalUtil = require('./util');
-var _ = require('lodash');
 
+var Option = require('./option');
+
+var VorpalUtil = require('./util');
+
+var _ = require('lodash');
 /**
  * Command prototype.
  */
 
-var command = Command.prototype;
 
+var command = Command.prototype;
 /**
  * Expose `Command`.
  */
 
 module.exports = exports = Command;
-
 /**
  * Initialize a new `Command` instance.
  *
@@ -34,6 +34,7 @@ function Command(name, parent) {
   if (!(this instanceof Command)) {
     return new Command();
   }
+
   this.commands = [];
   this.options = [];
   this._args = [];
@@ -49,7 +50,6 @@ function Command(name, parent) {
   this._after = undefined;
   this._allowUnknownOptions = false;
 }
-
 /**
  * Registers an option for given command.
  *
@@ -61,30 +61,32 @@ function Command(name, parent) {
  * @api public
  */
 
+
 command.option = function (flags, description, autocomplete) {
   var self = this;
   var option = new Option(flags, description, autocomplete);
   var oname = option.name();
-  var name = _camelcase(oname);
-  var defaultValue;
 
-  // preassign default value only for --no-*, [optional], or <required>
+  var name = _camelcase(oname);
+
+  var defaultValue; // preassign default value only for --no-*, [optional], or <required>
+
   if (option.bool === false || option.optional || option.required) {
     // when --no-* we make sure default is true
     if (option.bool === false) {
       defaultValue = true;
-    }
-    // preassign only if we have a default
+    } // preassign only if we have a default
+
+
     if (defaultValue !== undefined) {
       self[name] = defaultValue;
     }
-  }
+  } // register the option
 
-  // register the option
-  this.options.push(option);
 
-  // when it's passed assign the value
+  this.options.push(option); // when it's passed assign the value
   // and conditionally invoke the callback
+
   this.on(oname, function (val) {
     // unassigned or bool
     if (typeof self[name] === 'boolean' || typeof self[name] === 'undefined') {
@@ -99,10 +101,8 @@ command.option = function (flags, description, autocomplete) {
       self[name] = val;
     }
   });
-
   return this;
 };
-
 /**
  * Defines an action for a given command.
  *
@@ -111,12 +111,12 @@ command.option = function (flags, description, autocomplete) {
  * @api public
  */
 
+
 command.action = function (fn) {
   var self = this;
   self._fn = fn;
   return this;
 };
-
 /**
  * Let's you compose other funtions to extend the command.
  *
@@ -125,10 +125,10 @@ command.action = function (fn) {
  * @api public
  */
 
+
 command.use = function (fn) {
   return fn(this);
 };
-
 /**
  * Defines a function to validate arguments
  * before action is performed. Arguments
@@ -139,12 +139,13 @@ command.use = function (fn) {
  * @returns {Command}
  * @api public
  */
+
+
 command.validate = function (fn) {
   var self = this;
   self._validate = fn;
   return this;
 };
-
 /**
  * Defines a function to be called when the
  * command is canceled.
@@ -153,11 +154,12 @@ command.validate = function (fn) {
  * @returns {Command}
  * @api public
  */
+
+
 command.cancel = function (fn) {
   this._cancel = fn;
   return this;
 };
-
 /**
  * Defines a method to be called when
  * the command set has completed.
@@ -167,11 +169,11 @@ command.cancel = function (fn) {
  * @api public
  */
 
+
 command.done = function (fn) {
   this._done = fn;
   return this;
 };
-
 /**
  * Defines tabbed auto-completion
  * for the given command. Favored over
@@ -182,11 +184,11 @@ command.done = function (fn) {
  * @api public
  */
 
+
 command.autocomplete = function (obj) {
   this._autocomplete = obj;
   return this;
 };
-
 /**
  * Defines tabbed auto-completion rules
  * for the given command.
@@ -196,8 +198,10 @@ command.autocomplete = function (obj) {
  * @api public
  */
 
+
 command.autocompletion = function (param) {
   this._parent._useDeprecatedAutocompletion = true;
+
   if (!_.isFunction(param) && !_.isObject(param)) {
     throw new Error('An invalid object type was passed into the first parameter of command.autocompletion: function expected.');
   }
@@ -205,7 +209,6 @@ command.autocompletion = function (param) {
   this._autocompletion = param;
   return this;
 };
-
 /**
  * Defines an init action for a mode command.
  *
@@ -214,15 +217,17 @@ command.autocompletion = function (param) {
  * @api public
  */
 
+
 command.init = function (fn) {
   var self = this;
+
   if (self._mode !== true) {
     throw Error('Cannot call init from a non-mode action.');
   }
+
   self._init = fn;
   return this;
 };
-
 /**
  * Defines a prompt delimiter for a
  * mode once entered.
@@ -232,11 +237,11 @@ command.init = function (fn) {
  * @api public
  */
 
+
 command.delimiter = function (delimiter) {
   this._delimiter = delimiter;
   return this;
 };
-
 /**
  * Sets args for static typing of options
  * using minimist.
@@ -246,18 +251,21 @@ command.delimiter = function (delimiter) {
  * @api public
  */
 
+
 command.types = function (types) {
   var supported = ['string', 'boolean'];
+
   for (var item in types) {
     if (supported.indexOf(item) === -1) {
       throw new Error('An invalid type was passed into command.types(): ' + item);
     }
+
     types[item] = !_.isArray(types[item]) ? [types[item]] : types[item];
   }
+
   this._types = types;
   return this;
 };
-
 /**
  * Defines an alias for a given command.
  *
@@ -266,16 +274,21 @@ command.types = function (types) {
  * @api public
  */
 
+
 command.alias = function () {
   var self = this;
+
   for (var i = 0; i < arguments.length; ++i) {
     var alias = arguments[i];
+
     if (_.isArray(alias)) {
       for (var j = 0; j < alias.length; ++j) {
         this.alias(alias[j]);
       }
+
       return this;
     }
+
     this._parent.commands.forEach(function (cmd) {
       if (!_.isEmpty(cmd._aliases)) {
         if (_.includes(cmd._aliases, alias)) {
@@ -284,11 +297,12 @@ command.alias = function () {
         }
       }
     });
+
     this._aliases.push(alias);
   }
+
   return this;
 };
-
 /**
  * Defines description for given command.
  *
@@ -297,20 +311,22 @@ command.alias = function () {
  * @api public
  */
 
+
 command.description = function (str) {
   if (arguments.length === 0) {
     return this._description;
   }
+
   this._description = str;
   return this;
 };
-
 /**
  * Removes self from Vorpal instance.
  *
  * @return {Command}
  * @api public
  */
+
 
 command.remove = function () {
   var self = this;
@@ -321,7 +337,6 @@ command.remove = function () {
   });
   return this;
 };
-
 /**
  * Returns the commands arguments as string.
  *
@@ -330,16 +345,17 @@ command.remove = function () {
  * @api public
  */
 
+
 command.arguments = function (desc) {
   return this._parseExpectedArgs(desc.split(/ +/));
 };
-
 /**
  * Returns the help info for given command.
  *
  * @return {String}
  * @api public
  */
+
 
 command.helpInformation = function () {
   var desc = [];
@@ -353,20 +369,15 @@ command.helpInformation = function () {
   if (this._aliases.length > 0) {
     alias = '  Alias: ' + this._aliases.join(' | ') + '\n';
   }
+
   var usage = ['', '  Usage: ' + cmdName + ' ' + this.usage(), ''];
-
   var cmds = [];
-
   var help = String(this.optionHelp().replace(/^/gm, '    '));
   var options = ['  Options:', '', help, ''];
-
   var res = usage.concat(cmds).concat(alias).concat(desc).concat(options).join('\n');
-
   res = res.replace(/\n\n\n/g, '\n\n');
-
   return res;
 };
-
 /**
  * Doesn't show command in the help menu.
  *
@@ -374,11 +385,11 @@ command.helpInformation = function () {
  * @api public
  */
 
+
 command.hidden = function () {
   this._hidden = true;
   return this;
 };
-
 /**
  * Allows undeclared options to be passed in with the command.
  *
@@ -387,15 +398,13 @@ command.hidden = function () {
  * @api public
  */
 
+
 command.allowUnknownOptions = function () {
   var allowUnknownOptions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-
   allowUnknownOptions = allowUnknownOptions === "false" ? false : allowUnknownOptions;
-
   this._allowUnknownOptions = !!allowUnknownOptions;
   return this;
 };
-
 /**
  * Returns the command usage string for help.
  *
@@ -403,6 +412,7 @@ command.allowUnknownOptions = function () {
  * @return {String}
  * @api public
  */
+
 
 command.usage = function (str) {
   var args = this._args.map(function (arg) {
@@ -416,10 +426,8 @@ command.usage = function (str) {
   }
 
   this._usage = str;
-
   return this;
 };
-
 /**
  * Returns the help string for the command's options.
  *
@@ -427,15 +435,15 @@ command.usage = function (str) {
  * @api public
  */
 
-command.optionHelp = function () {
-  var width = this._largestOptionLength();
 
-  // Prepend the help information
+command.optionHelp = function () {
+  var width = this._largestOptionLength(); // Prepend the help information
+
+
   return [VorpalUtil.pad('--help', width) + '  output usage information'].concat(this.options.map(function (option) {
     return VorpalUtil.pad(option.flags, width) + '  ' + option.description;
   })).join('\n');
 };
-
 /**
  * Returns the length of the longest option.
  *
@@ -443,12 +451,12 @@ command.optionHelp = function () {
  * @api private
  */
 
+
 command._largestOptionLength = function () {
   return this.options.reduce(function (max, option) {
     return Math.max(max, option.flags.length);
   }, 0);
 };
-
 /**
  * Adds a custom handling for the --help flag.
  *
@@ -457,13 +465,14 @@ command._largestOptionLength = function () {
  * @api public
  */
 
+
 command.help = function (fn) {
   if (_.isFunction(fn)) {
     this._help = fn;
   }
+
   return this;
 };
-
 /**
  * Edits the raw command string before it
  * is executed.
@@ -473,13 +482,14 @@ command.help = function (fn) {
  * @api public
  */
 
+
 command.parse = function (fn) {
   if (_.isFunction(fn)) {
     this._parse = fn;
   }
+
   return this;
 };
-
 /**
  * Adds a command to be executed after command completion.
  *
@@ -488,13 +498,14 @@ command.parse = function (fn) {
  * @api public
  */
 
+
 command.after = function (fn) {
   if (_.isFunction(fn)) {
     this._after = fn;
   }
+
   return this;
 };
-
 /**
  * Parses and returns expected command arguments.
  *
@@ -503,10 +514,12 @@ command.after = function (fn) {
  * @api private
  */
 
+
 command._parseExpectedArgs = function (args) {
   if (!args.length) {
     return;
   }
+
   var self = this;
   args.forEach(function (arg) {
     var argDetails = {
@@ -520,9 +533,11 @@ command._parseExpectedArgs = function (args) {
         argDetails.required = true;
         argDetails.name = arg.slice(1, -1);
         break;
+
       case '[':
         argDetails.name = arg.slice(1, -1);
         break;
+
       default:
         break;
     }
@@ -531,13 +546,13 @@ command._parseExpectedArgs = function (args) {
       argDetails.variadic = true;
       argDetails.name = argDetails.name.slice(0, -3);
     }
+
     if (argDetails.name) {
       self._args.push(argDetails);
     }
-  });
-
-  // If the user entered args in a weird order,
+  }); // If the user entered args in a weird order,
   // properly sequence them.
+
   if (self._args.length > 1) {
     self._args = self._args.sort(function (argu1, argu2) {
       if (argu1.required && !argu2.required) {
@@ -549,13 +564,13 @@ command._parseExpectedArgs = function (args) {
       } else if (argu2.variadic && !argu1.variadic) {
         return -1;
       }
+
       return 0;
     });
   }
 
   return;
 };
-
 /**
  * Converts string to camel case.
  *
@@ -564,14 +579,15 @@ command._parseExpectedArgs = function (args) {
  * @api private
  */
 
+
 function _camelcase(flag) {
   return flag.split('-').reduce(function (str, word) {
     return str + word[0].toUpperCase() + word.slice(1);
   });
 }
-
 /**
  * Make command an EventEmitter.
  */
+
 
 command.__proto__ = EventEmitter.prototype;

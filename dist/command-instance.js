@@ -1,18 +1,21 @@
 'use strict';
-
 /**
  * Module dependencies.
  */
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 var util = require('./util');
+
 var _ = require('lodash');
 
-var CommandInstance = function () {
-
+var CommandInstance =
+/*#__PURE__*/
+function () {
   /**
    * Initialize a new `CommandInstance` instance.
    *
@@ -20,7 +23,6 @@ var CommandInstance = function () {
    * @return {CommandInstance}
    * @api public
    */
-
   function CommandInstance() {
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
         command = _ref.command,
@@ -41,40 +43,48 @@ var CommandInstance = function () {
     this.callback = callback;
     this.downstream = downstream;
   }
-
   /**
    * Cancel running command.
    */
 
+
   _createClass(CommandInstance, [{
-    key: 'cancel',
+    key: "cancel",
     value: function cancel() {
       this.session.emit('vorpal_command_cancel');
     }
-
     /**
      * Route stdout either through a piped command, or the session's stdout.
      */
 
   }, {
-    key: 'log',
+    key: "log",
     value: function log() {
       var _this = this;
 
       var args = util.fixArgsForApply(arguments);
+
       if (this.downstream) {
         var fn = this.downstream.commandObject._fn || function () {};
+
         this.session.registerCommand();
         this.downstream.args.stdin = args;
+
         var onComplete = function onComplete(err) {
           if (_this.session.isLocal() && err) {
             _this.session.log(err.stack || err);
-            _this.session.parent.emit('client_command_error', { command: _this.downstream.command, error: err });
+
+            _this.session.parent.emit('client_command_error', {
+              command: _this.downstream.command,
+              error: err
+            });
           }
+
           _this.session.completeCommand();
         };
 
         var validate = this.downstream.commandObject._validate;
+
         if (_.isFunction(validate)) {
           try {
             validate.call(this.downstream, this.downstream.args);
@@ -87,6 +97,7 @@ var CommandInstance = function () {
         }
 
         var res = fn.call(this.downstream, this.downstream.args, onComplete);
+
         if (res && _.isFunction(res.then)) {
           res.then(onComplete, onComplete);
         }
@@ -95,22 +106,22 @@ var CommandInstance = function () {
       }
     }
   }, {
-    key: 'prompt',
+    key: "prompt",
     value: function prompt(a, b, c) {
       return this.session.prompt(a, b, c);
     }
   }, {
-    key: 'delimiter',
+    key: "delimiter",
     value: function delimiter(a, b, c) {
       return this.session.delimiter(a, b, c);
     }
   }, {
-    key: 'help',
+    key: "help",
     value: function help(a, b, c) {
       return this.session.help(a, b, c);
     }
   }, {
-    key: 'match',
+    key: "match",
     value: function match(a, b, c) {
       return this.session.match(a, b, c);
     }
