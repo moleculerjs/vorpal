@@ -2,7 +2,7 @@
 
 var vorpal = require('./../../')();
 var less = require('vorpal-less');
-var repl = require('vorpal-repl');
+var repl = require('./../../lib/vorpal-repl');
 vorpal.use(less).use(repl);
 
 vorpal.command('add [numbers...]', 'Adds numbers together')
