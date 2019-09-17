@@ -4,7 +4,7 @@
   "description": "Node's first framework for building immersive CLI apps.",
   "main": "./dist/vorpal.js",
   "scripts": {
-    "test": "mocha --exit",
+    "test": "gulp build && mocha --exit",
     "prepublish": "in-publish && gulp build || not-in-publish"
   },
   "repository": {

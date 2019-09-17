@@ -245,8 +245,10 @@ function (_EventEmitter) {
       this._midPrompt = true;
 
       try {
-        prompt = inquirer.prompt(options).then(result => {
-        // prompt = inquirer.prompt(options, function (result) {
+        // From v1.0.0 inquirer in dropped support for callbacks. Only Promises are supported!
+        // More info: https://github.com/SBoudrias/Inquirer.js/releases/tag/v1.0.0
+        prompt = inquirer.prompt(options).then(function (result) {
+          // prompt = inquirer.prompt(options, (result) => {
           _this2.inquirerStdout = [];
           _this2._midPrompt = false;
 
@@ -268,7 +270,7 @@ function (_EventEmitter) {
         console.log('Vorpal Prompt error:', e);
       }
 
-      // return prompt;
+      return prompt;
     }
     /**
      * Returns a boolean as to whether user
