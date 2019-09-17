@@ -1,6 +1,6 @@
 {
-  "name": "vorpal",
-  "version": "1.11.4",
+  "name": "@moleculer/vorpal",
+  "version": "1.11.5",
   "description": "Node's first framework for building immersive CLI apps.",
   "main": "./dist/vorpal.js",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dthree/vorpal.git"
+    "url": "git+https://github.com/moleculerjs/vorpal.git"
   },
   "keywords": [
     "api",
@@ -26,12 +26,12 @@
     "prompt",
     "inquirer"
   ],
-  "author": "dthree",
+  "author": "MoleculerJS",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dthree/vorpal/issues"
+    "url": "https://github.com/moleculerjs/vorpal/issues"
   },
-  "homepage": "https://github.com/dthree/vorpal#readme",
+  "homepage": "https://github.com/moleculerjs/vorpal#readme",
   "devDependencies": {
     "@babel/core": "7.6.0",
     "@babel/preset-env": "7.6.0",
@@ -57,7 +57,7 @@
     "chalk": "^2.4.2",
     "in-publish": "^2.0.0",
     "inquirer": "7.0.0",
-    "lodash": "4.17.15",
+    "lodash": "^4.17.15",
     "log-update": "^3.3.0",
     "minimist": "^1.2.0",
     "node-localstorage": "^1.3.1",
@@ -66,8 +66,7 @@
     "json-stringify-safe": "^5.0.1"
   },
   "engines": {
-    "node": ">= 0.10.0",
-    "iojs": ">= 1.0.0"
+    "node": ">= 8.0.0"
   },
   "xo": {
     "space": true,
