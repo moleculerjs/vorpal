@@ -245,7 +245,10 @@ function (_EventEmitter) {
       this._midPrompt = true;
 
       try {
-        prompt = inquirer.prompt(options, function (result) {
+        // From v1.0.0 inquirer in dropped support for callbacks. Only Promises are supported!
+        // More info: https://github.com/SBoudrias/Inquirer.js/releases/tag/v1.0.0
+        prompt = inquirer.prompt(options).then(function (result) {
+          // prompt = inquirer.prompt(options, (result) => {
           _this2.inquirerStdout = [];
           _this2._midPrompt = false;
 
@@ -337,9 +340,15 @@ function (_EventEmitter) {
       var message = prompt.getQuestion();
       var addition = prompt.status === 'answered' ? chalk.cyan(prompt.answer) : line;
       message += addition;
-      prompt.screen.render(message, {
-        cursor: cursor
-      });
+      /*
+      * Remove cursor as it causes an Error
+      * '(node:28989) UnhandledPromiseRejectionWarning: TypeError: content.split is not a function'
+      * 
+      * Copied from: https://github.com/ueqt/ucli/commit/174a2fe2f59f7cc7a634087723b908392cebd624
+      */
+      // prompt.screen.render(message, {cursor: cursor});
+
+      prompt.screen.render(message);
       var key = (e.key || {}).name;
       var value = prompt ? String(line) : undefined;
       this.emit('vorpal_ui_keypress', {
@@ -581,9 +590,14 @@ function (_EventEmitter) {
       var message = prompt.getQuestion();
       var addition = prompt.status === 'answered' ? chalk.cyan(prompt.answer) : prompt.rl.line;
       message += addition;
-      prompt.screen.render(message, {
-        cursor: cursor
-      });
+      /*
+      * Remove cursor as it causes an Error
+      * '(node:28989) UnhandledPromiseRejectionWarning: TypeError: content.split is not a function'
+      * 
+      * Copied from: https://github.com/ueqt/ucli/commit/174a2fe2f59f7cc7a634087723b908392cebd624
+      */
+
+      prompt.screen.render(message);
       return this;
     }
     /**
