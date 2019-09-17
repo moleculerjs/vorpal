@@ -340,9 +340,15 @@ function (_EventEmitter) {
       var message = prompt.getQuestion();
       var addition = prompt.status === 'answered' ? chalk.cyan(prompt.answer) : line;
       message += addition;
-      prompt.screen.render(message, {
-        cursor: cursor
-      });
+      /*
+      * Remove cursor as it causes an Error
+      * '(node:28989) UnhandledPromiseRejectionWarning: TypeError: content.split is not a function'
+      * 
+      * Copied from: https://github.com/ueqt/ucli/commit/174a2fe2f59f7cc7a634087723b908392cebd624
+      */
+      // prompt.screen.render(message, {cursor: cursor});
+
+      prompt.screen.render(message);
       var key = (e.key || {}).name;
       var value = prompt ? String(line) : undefined;
       this.emit('vorpal_ui_keypress', {
@@ -584,9 +590,14 @@ function (_EventEmitter) {
       var message = prompt.getQuestion();
       var addition = prompt.status === 'answered' ? chalk.cyan(prompt.answer) : prompt.rl.line;
       message += addition;
-      prompt.screen.render(message, {
-        cursor: cursor
-      });
+      /*
+      * Remove cursor as it causes an Error
+      * '(node:28989) UnhandledPromiseRejectionWarning: TypeError: content.split is not a function'
+      * 
+      * Copied from: https://github.com/ueqt/ucli/commit/174a2fe2f59f7cc7a634087723b908392cebd624
+      */
+
+      prompt.screen.render(message);
       return this;
     }
     /**
