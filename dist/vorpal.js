@@ -889,7 +889,7 @@ vorpal._exec = function (item) {
     throw new Error('vorpal._exec was called with an undefined command.');
   } // History for our 'up' and 'down' arrows.
 
-
+  
   item.session.history(item.session._mode ? modeCommand : item.command);
   var commandData = this.util.parseCommand(item.command, this.commands);
   item.command = commandData.command;

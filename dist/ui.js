@@ -245,7 +245,8 @@ function (_EventEmitter) {
       this._midPrompt = true;
 
       try {
-        prompt = inquirer.prompt(options, function (result) {
+        prompt = inquirer.prompt(options).then(result => {
+        // prompt = inquirer.prompt(options, function (result) {
           _this2.inquirerStdout = [];
           _this2._midPrompt = false;
 
@@ -267,7 +268,7 @@ function (_EventEmitter) {
         console.log('Vorpal Prompt error:', e);
       }
 
-      return prompt;
+      // return prompt;
     }
     /**
      * Returns a boolean as to whether user
