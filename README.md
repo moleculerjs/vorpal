@@ -9,6 +9,8 @@
 
 > Conquer the command-line.
 
+> **Note:** This fork is the same old Vorpal but without the vulnerabilities of the original. Also, [vorpal-repl](https://github.com/vorpaljs/vorpal-repl) was included into this repo.
+
 ```text
               (O)
               <M
