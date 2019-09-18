@@ -11,6 +11,8 @@
 </a>
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 
+[![Known Vulnerabilities](https://snyk.io/test/github/moleculerjs/vorpal/badge.svg)](https://snyk.io/test/github/moleculerjs/vorpal)
+
 > Conquer the command-line.
 
 ```text
