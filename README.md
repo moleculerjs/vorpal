@@ -2,8 +2,8 @@
 
 
 [![Build Status](https://travis-ci.org/moleculerjs/vorpal.svg)](https://travis-ci.org/moleculerjs/vorpal/)
-<a href="https://www.npmjs.com/package/@moleculerjs/vorpal">
-  <img src="https://img.shields.io/npm/dt/@moleculerjs/vorpal.svg" alt="NPM Downloads" />
+<a href="https://www.npmjs.com/package/@moleculer/vorpal">
+  <img src="https://img.shields.io/npm/dt/@moleculer/vorpal.svg" alt="NPM Downloads" />
 </a>
 [![Known Vulnerabilities](https://snyk.io/test/github/moleculerjs/vorpal/badge.svg)](https://snyk.io/test/github/moleculerjs/vorpal)
 
