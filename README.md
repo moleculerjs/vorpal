@@ -1,16 +1,10 @@
 # Vorpal
 
 
-[![Build Status](https://travis-ci.org/dthree/vorpal.svg)](https://travis-ci.org/dthree/vorpal/)
-<a href="https://www.npmjs.com/package/vorpal">
-  <img src="https://img.shields.io/npm/dt/vorpal.svg" alt="NPM Downloads" />
+[![Build Status](https://travis-ci.org/moleculerjs/vorpal.svg)](https://travis-ci.org/moleculerjs/vorpal/)
+<a href="https://www.npmjs.com/package/@moleculerjs/vorpal">
+  <img src="https://img.shields.io/npm/dt/@moleculerjs/vorpal.svg" alt="NPM Downloads" />
 </a>
-[![Package Quality](http://npm.packagequality.com/shield/vorpal.svg)](http://packagequality.com/#?package=vorpal)
-<a href="https://www.npmjs.com/package/vorpal">
-  <img src="https://img.shields.io/npm/v/vorpal.svg" alt="NPM Version" />
-</a>
-[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
-
 [![Known Vulnerabilities](https://snyk.io/test/github/moleculerjs/vorpal/badge.svg)](https://snyk.io/test/github/moleculerjs/vorpal)
 
 > Conquer the command-line.
@@ -69,13 +63,13 @@ Made with :heart: by [dthree](https://github.com/dthree).
 Install `vorpal` into your project:
 
 ```bash
-$ npm install vorpal --save
+$ npm install @moleculerjs/vorpal --save
 ```
 
 Create a `.js` file and add the following:
 
 ```js
-const vorpal = require('vorpal')();
+const vorpal = require('@moleculerjs/vorpal')();
 
 vorpal
   .command('foo', 'Outputs "bar".')
